@@ -4,8 +4,6 @@
 #include "hook.h"
 #include "zygisk.hpp"
 
-
-
 using zygisk::Api;
 using zygisk::AppSpecializeArgs;
 using zygisk::ServerSpecializeArgs;

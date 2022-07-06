@@ -28,6 +28,8 @@ Index of this file:
 
 */
 
+#include "../Misc/JNIStuff.h"
+
 #if defined(_MSC_VER) && !defined(_CRT_SECURE_NO_WARNINGS)
 #define _CRT_SECURE_NO_WARNINGS
 #endif
@@ -5914,6 +5916,7 @@ bool ImGui::TreeNodeBehavior(ImGuiID id, ImGuiTreeNodeFlags flags, const char* l
     // In this branch, TreeNodeBehavior() cannot toggle the selection so this will never trigger.
     if (selected != was_selected) //-V547
         g.LastItemData.StatusFlags |= ImGuiItemStatusFlags_ToggledSelection;
+
 
     // Render
     const ImU32 text_col = GetColorU32(ImGuiCol_Text);

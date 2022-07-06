@@ -13,7 +13,6 @@ add_subdirectory(${DobbyHome} dobby)
 
 add_library( ${MODULE_NAME} SHARED
         main.cpp hook.cpp il2cpp_dump.cpp
-
         ImGui/imgui.cpp
              ImGui/imgui_impl_android.cpp
              ImGui/imgui_impl_opengl3.cpp

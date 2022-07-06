@@ -1,5 +1,10 @@
 #ifndef JNISTUFF
 #define JNISTUFF
+
+#include "../Obfuscation/Obfuscate.h"
+#include "Logging.h"
+#include <jni.h>
+
 JavaVM *jvm;
 jclass UnityPlayer_cls;
 jfieldID UnityPlayer_CurrentActivity_fid;

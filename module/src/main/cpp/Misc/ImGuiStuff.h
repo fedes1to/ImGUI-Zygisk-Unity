@@ -1,6 +1,9 @@
 #ifndef IMGUISTUFF
 #define IMGUISTUFF
 #include "../Data/Fonts/Roboto-Regular.h"
+#include "../ImGui/imgui.h"
+#include "../ImGui/imgui_impl_android.h"
+#include "../ImGui/imgui_impl_opengl3.h"
 static bool init;
 void SetBlackGoldTheme()
 {

@@ -1,3 +1,4 @@
+#include <string>
 #ifndef UTILS_H
 #define UTILS_H
 #include "../Hooking/dobby.h"

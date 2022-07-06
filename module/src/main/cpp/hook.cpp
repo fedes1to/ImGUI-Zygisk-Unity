@@ -17,6 +17,8 @@
 #include "Misc/ImGuiStuff.h"
 #include "Menu.h"
 #include <pthread.h>
+#include "Obfuscation/Custom_Obfuscate.h"
+#include "ByNameModding/BNM.hpp"
 
 
 EGLBoolean (*old_eglSwapBuffers)(...);
@@ -88,6 +90,14 @@ HOOK_DEF(void*, do_dlopen_V19, const char *name, int flags, const void *extinfo)
 }
 
 void *hack_thread(void *arg) {
+    BNM::AttachIl2Cpp(); // this is required when you use bynamemodding functions
+    Menu::Screen_get_height = (int (*)()) BNM::OBFUSCATE_BYNAME_METHOD("UnityEngine", "Screen", "get_height",0);
+    Menu::Screen_get_width = (int (*)()) BNM::OBFUSCATE_BYNAME_METHOD("UnityEngine", "Screen", "get_width", 0);
+/*    DobbyHook((void*)getAbsoluteAddress("libil2cpp.so", 0xD03718), (void*) Menu::ApplyRecoil, (void**)&Menu::oldApplyRecoil);
+    DobbyHook((void*)getAbsoluteAddress("libil2cpp.so", 0xD03404), (void*) Menu::Inaccuaracy, (void**)&Menu::oldInaccuaracy);
+    DobbyHook((void*)getAbsoluteAddress("libil2cpp.so", 0x57D670), (void*) Menu::RequestBanCreate, (void**)&Menu::oldRequestBanCreate);
+    DobbyHook((void*)getAbsoluteAddress("libil2cpp.so", 0x7DF8D4), (void*) Menu::FetchFollowedCharacterTeamIndex, (void**)&Menu::oldFetchFollowedCharacterTeamIndex);*/
+    BNM::DetachIl2Cpp();
     LOGI("hack thread: %d", gettid());
     int api_level = GetAndroidApiLevel();
     LOGI("api level: %d", api_level);

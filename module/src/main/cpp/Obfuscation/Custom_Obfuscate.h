@@ -4,7 +4,7 @@
 
 #ifndef IMGUIANDROID_CUSTOM_OBFUSCATE_H
 #define IMGUIANDROID_CUSTOM_OBFUSCATE_H
-using namespace BNM; // remember to use the macros to protect offsets from static analysis
+ // remember to use the macros to protect offsets from static analysis
 #include "instr.h"
 #define OBFUSCATE_OFFSET(data) getRealOffset(string2Offset(STRING_OBFUSCATE_KEY(data, STRING_OBFUSCATE_DEFAULT_KEY)))
 

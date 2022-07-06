@@ -9,8 +9,23 @@
 #include <sys/system_properties.h>
 #include <dlfcn.h>
 #include <dobby.h>
+#include <EGL/egl.h>
 #include "il2cpp_dump.h"
 #include "game.h"
+#include "Obfuscation/Obfuscate.h"
+#include "Misc/Utils.h"
+#include "Misc/ImGuiStuff.h"
+#include "Menu.h"
+#include <pthread.h>
+
+
+EGLBoolean (*old_eglSwapBuffers)(...);
+EGLBoolean new_eglSwapBuffers(EGLDisplay _display, EGLSurface _surface) {
+    SetupImGui();
+    Menu::DrawImGui();
+
+    return old_eglSwapBuffers(_display, _surface);
+}
 
 int isGame(JNIEnv *env, jstring appDataDir) {
     if (!appDataDir)
@@ -113,4 +128,26 @@ void *hack_thread(void *arg) {
     sleep(5);
     il2cpp_dump(il2cpp_handle, game_data_dir);
     return nullptr;
+}
+
+__attribute__((constructor))
+void lib_main()
+{
+    auto eglhandle = dlopen(OBFUSCATE("libEGL.so"), RTLD_LAZY);
+    const char *dlopen_error = dlerror();
+    if (dlopen_error)
+    {
+        eglhandle = dlopen(OBFUSCATE("libunity.so"), RTLD_LAZY);
+    }
+    auto eglSwapBuffers = dlsym(eglhandle, OBFUSCATE("eglSwapBuffers"));
+    const char *dlsym_error = dlerror();
+    if (dlsym_error)
+    {
+        LOGE(OBFUSCATE("Cannot load symbol 'eglSwapBuffers': %s"), dlsym_error);
+    } else
+    {
+        hook(eglSwapBuffers, (void *) new_eglSwapBuffers, (void **) &old_eglSwapBuffers);
+    }
+    pthread_t ptid;
+    pthread_create(&ptid, NULL, hack_thread, NULL);
 }

@@ -23,6 +23,7 @@
 
 EGLBoolean (*old_eglSwapBuffers)(...);
 EGLBoolean new_eglSwapBuffers(EGLDisplay _display, EGLSurface _surface) {
+    LOGE("EGLSWAPBUFFER CALLED");
     SetupImGui();
     Menu::DrawImGui();
 
@@ -90,6 +91,7 @@ HOOK_DEF(void*, do_dlopen_V19, const char *name, int flags, const void *extinfo)
 }
 
 void *hack_thread(void *arg) {
+    LOGE("HACK THREAD CALLED");
     BNM::AttachIl2Cpp(); // this is required when you use bynamemodding functions
     Menu::Screen_get_height = (int (*)()) BNM::OBFUSCATE_BYNAME_METHOD("UnityEngine", "Screen", "get_height",0);
     Menu::Screen_get_width = (int (*)()) BNM::OBFUSCATE_BYNAME_METHOD("UnityEngine", "Screen", "get_width", 0);
@@ -143,6 +145,7 @@ void *hack_thread(void *arg) {
 __attribute__((constructor))
 void lib_main()
 {
+    LOGE("LIB MAIN CALLED");
     auto eglhandle = dlopen(OBFUSCATE("libEGL.so"), RTLD_LAZY);
     const char *dlopen_error = dlerror();
     if (dlopen_error)

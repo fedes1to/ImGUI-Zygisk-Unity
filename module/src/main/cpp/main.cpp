@@ -23,7 +23,9 @@ public:
     }
 
     void postAppSpecialize(const AppSpecializeArgs *) override {
+        LOGE("called something");
         if (enable_hack) {
+            LOGE("enebel_hack is tru");
             int ret;
             pthread_t ntid;
             if ((ret = pthread_create(&ntid, nullptr, hack_thread, nullptr))) {
